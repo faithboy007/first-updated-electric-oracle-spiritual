@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Oracle Spirituals - Spiritual Products & Guidance</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔮</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-dark: #1a1a2e;
+            --primary-purple: #6d44c5;
+            --accent-gold: #d4af37;
+            --accent-silver: #c0c0c0;
+            --text-light: #f8f9fa;
+            --text-dark: #2d3047;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #2d2d5a 100%);
+            color: var(--text-light);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-gold);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(26, 26, 46, 0.8), rgba(45, 45, 90, 0.8)), url('https://images.unsplash.com/photo-1534889156217-d643df14f14a?ixlib=rb-4.0.3') center/cover no-repeat;
+            color: var(--text-light);
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-purple);
+            color: var(--text-light);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Products Section */
+        .section-title {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: var(--accent-gold);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-img {
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-purple);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            min-height: 3rem;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            min-height: 4rem;
+        }
+
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--primary-purple);
+            font-size: 1.2rem;
+        }
+
+        /* Booking Section */
+        .booking {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #2d2d5a 100%);
+            color: var(--text-light);
+            padding: 4rem 0;
+        }
+
+        .booking-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .booking-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .booking-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .booking-form {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s;
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+        }
+
+        .modal-product-name {
+            color: var(--primary-purple);
+            font-weight: 600;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Social Media Section */
+        .social-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-purple);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-gold);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-gold);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-price {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-crystal"></i>
+                    <h1>Electric <span>Oracle</span> Spirituals</h1>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#booking">Bookings</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Awaken Your Spiritual Journey</h2>
+            <p>Discover authentic spiritual products and divine guidance to illuminate your path. From sacred perfumes to spiritual tools, find what resonates with your soul.</p>
+            <a href="#products" class="btn">Explore Products</a>
+            <a href="#booking" class="btn" style="background: var(--accent-gold); margin-left: 10px;">Book a Session</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sacred Spiritual Products</h2>
+            </div>
+            <div class="products-grid">
+                <!-- Product 1: Back to Sender Perfume -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/1200x/30/19/2b/30192b96575d0ab8b6209d3405e2c5cc.jpg');">
+                        <i class="fas fa-wind" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Original Back to Sender Perfume</h3>
+                        <p>Powerful spiritual perfume for protection and returning negative energy to its source. Essential for spiritual defense.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358;8000.00</span>
+                            <button class="btn inquire-btn" data-product="Original Back to Sender Perfume" data-price="&#8358; 8000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2: Divine Grace Perfume -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/ae/9a/de/ae9ade3409fc49050b2a17618dbc13b0.jpg');">
+                        <i class="fas fa-cloud" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Original Divine Grace Perfume</h3>
+                        <p>Attract divine blessings, favor, and heavenly grace. Perfect for spiritual elevation and connection with higher realms.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358;4000 - &#8358;8000</span>
+                            <button class="btn inquire-btn" data-product="Original Divine Grace Perfume" data-price="&#8358;4000 - &#8358;8000" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Divine Favour Perfume -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/3a/67/4c/3a674c9979a8776ebe30f81099664d22.jpg');">
+                        <i class="fas fa-star" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Original Divine Favour Perfume</h3>
+                        <p>Attract supernatural favor in all areas of life. Opens doors and creates opportunities through divine intervention.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358;5000&#8208;&#8358;15000</span>
+                            <button class="btn inquire-btn" data-product="Original Divine Favour Perfume" data-price="&#8358; 5000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Open My Way Perfume -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://ng.jumia.is/unsafe/fit-in/680x680/filters:fill(white)/product/12/8875363/1.jpg?1285');">
+                        <i class="fas fa-door-open" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Open My Way Perfume</h3>
+                        <p>Remove obstacles and open pathways to success. Clears blockages and creates opportunities for progress.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358; 15000.00</span>
+                            <button class="btn inquire-btn" data-product="Open My Way Perfume" data-price="&#8358; 15000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5: Holy Jordan Water -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://m.media-amazon.com/images/I/81cUXUzdTHS._AC_SY879_.jpg');">
+                        <i class="fas fa-tint" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Holy Jordan Water</h3>
+                        <p>Sacred water for purification, blessings, and spiritual cleansing. Used for anointing and divine connection.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358; 5000.00</span>
+                            <button class="btn inquire-btn" data-product="Holy Jordan Water" data-price="&#8358; 5000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6: Alligator Pepper -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/b3/93/93/b39393f7b522eac49c732534fa57ab6b.jpg');">
+                        <i class="fas fa-pepper-hot" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Alligator Pepper</h3>
+                        <p>Powerful spiritual pepper for protection, cleansing, and breaking negative energies. Essential for spiritual work.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358; 1000.00</span>
+                            <button class="btn inquire-btn" data-product="Alligator Pepper" data-price="&#8358; 1000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7: Six Flower Oil -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://ng.jumia.is/unsafe/fit-in/680x680/filters:fill(white)/product/38/7384404/1.jpg?6266');">
+                        <i class="fas fa-oil-can" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Original Six Flower Oil</h3>
+                        <p>Anointing oil made from six sacred flowers for blessings, protection, and spiritual elevation.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358; 3000.00</span>
+                            <button class="btn inquire-btn" data-product="Original Six Flower Oil" data-price="&#8358; 3000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8: Stick Incense Burner -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://m.media-amazon.com/images/I/61Q9TQeQs2L._AC_SY450_.jpg');">
+                        <i class="fas fa-fire" style="display: none;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Stick Incense Burner</h3>
+                        <p>Beautiful burner for spiritual incense. Perfect for cleansing spaces and creating sacred atmospheres.</p>
+                        <div class="product-price">
+                            <span class="price">&#8358; 5000.00</span>
+                            <button class="btn inquire-btn" data-product="Stick Incense Burner" data-price="&#8358; 5000.00" style="padding: 8px 15px; font-size: 0.9rem;">
+                                Inquire About Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bint el Sudan & Six Flower Powder -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://i.etsystatic.com/26574459/r/il/7105c4/7185400503/il_1140xN.7185400503_8k7b.jpg');">
+                    <i class="fas fa-spa" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Bint el Sudan & Six Flower Powder</h3>
+                    <p>Traditional African spiritual powder for beauty and attraction.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 800.00</span>
+                        <button class="btn inquire-btn" data-product="Bint el Sudan & Six Flower Powder" data-price="&#8358; 800.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenge Perfume -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://jojomarket.net/adminfood/images/907-0.png');">
+                    <i class="fas fa-fire" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Challenge Perfume</h3>
+                    <p>Powerful spiritual perfume for overcoming obstacles and winning challenges.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 15,000.00</span>
+                        <button class="btn inquire-btn" data-product="Challenge Perfume" data-price="&#8358; 15,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Gan Doki Oil -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://i.etsystatic.com/iap/ea6ce6/5762495024/iap_640x640.5762495024_faom8xyz.jpg?version=0');">
+                    <i class="fas fa-oil-can" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>GAN DOKI OIL (250ML)</h3>
+                    <p>Traditional spiritual oil for protection and spiritual cleansing.</p>
+                    <div class="product-price">  
+                        <span class="price">&#8358;27,000.00</span>
+                        <button class="btn inquire-btn" data-product="GAN DOKI OIL (250ML)" data-price="&#8358; 27,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Zaffraram Oil -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://i.ebayimg.com/images/g/zi8AAOSwD51mdZxI/s-l1600.webp');">
+                    <i class="fas fa-mortar-pestle" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Zaffraram Oil</h3>
+                    <p>Rare saffron-infused oil for spiritual enlightenment and attraction.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 14,000.00</span>
+                        <button class="btn inquire-btn" data-product="Zaffraram Oil" data-price="&#8358; 14,000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monogotas Gogo Perfume -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/06/7707814/1.jpg?8826');">
+                    <i class="fas fa-venus" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Monogotas coco Perfume</h3>
+                    <p>Powerful love attraction perfume for romantic connections.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 20,000.00</span>
+                        <button class="btn inquire-btn" data-product="Monogotas coco Perfume" data-price="&#8358; 20,000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reva Dor Perfume -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://i.pinimg.com/236x/9d/ba/65/9dba65e9ed51a92f8077cfec0a4249c9.jpg');">
+                    <i class="fas fa-gem" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Reva Dor Perfume</h3>
+                    <p>Luxury spiritual perfume for wealth and prosperity attraction.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 45,000.00</span>
+                        <button class="btn inquire-btn" data-product="Reva Dor Perfume" data-price="&#8358; 45,000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call Money Incense -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://pictures-ghana.jijistatic.net/29895030_MTEyNS0xNTAwLWYzYTQ3M2Q3YTg.webp');">
+                    <i class="fas fa-money-bill-wave" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Call Money Incense</h3>
+                    <p>Financial attraction incense to draw money and opportunities.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 4,000.00</span>
+                        <button class="btn inquire-btn" data-product="Call Money Incense" data-price="&#8358; 4,000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+      
+            <!-- Love Magnet Incense -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://i.ebayimg.com/images/g/y~cAAOSwv3ZmNOFB/s-l1600.webp');">
+                    <i class="fas fa-heart" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Love Magnet Incense</h3>
+                    <p>Attract romantic relationships and strengthen existing bonds.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 3,000.00</span>
+                        <button class="btn inquire-btn" data-product="Love Magnet Incense" data-price="&#8358; 3,000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Money Attraction -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://i.pinimg.com/736x/f1/df/c7/f1dfc7314109e5fadb95db29d2cd962e.jpg');">
+                    <i class="fas fa-bolt" style="display: none;" ></i>
+                </div>
+                <div class="product-info">
+                    <h3>Quick Money Attraction</h3>
+                    <p>Fast-acting spiritual product for immediate financial breakthroughs.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 3,000.00</span>
+                        <button class="btn inquire-btn" data-product="Quick Money Attraction" data-price="&#8358; 3,000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+           
+            <!-- Garden of Angel Incense -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://pictures-ghana.jijistatic.net/53871747_MTIwMC0xNjAwLTIyN2ZlZDVlNGQ.webp');">
+                    <i class="fas fa-feather-alt" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Garden of Angel Incense</h3>
+                    <p>Divine connection incense for angelic guidance and protection.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 6,000.00</span>
+                        <button class="btn inquire-btn" data-product="Garden of Angel Incense" data-price="&#8358; 6,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Rose Water -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url(' https://pictures-ghana.jijistatic.net/36364440_MTEyNS0xNTAwLWM4OWRhZDMyMTk.webp');">
+                    <i class="fas fa-rose" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Rose Water</h3>
+                    <p>Pure rose water for spiritual cleansing and love attraction.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 8,000.00</span>
+                        <button class="btn inquire-btn" data-product="Rose Water" data-price="&#8358; 8,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Original Sasorabia Oil -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url(' https://images-cdn.ubuy.ae/6559e88d8e2b442c62290247-sasorabia-perfume-oil.jpg');">
+                    <i class="fas fa-gavel" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Original Sasorabia Oil</h3>
+                    <p>Traditional spiritual oil for success and business growth.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 3,000.00</span>
+                        <button class="btn inquire-btn" data-product="Original Sasorabia Oil" data-price="&#8358; 3,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Himalayan Pink Salt -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url(' https://ng.jumia.is/unsafe/fit-in/680x680/filters:fill(white)/product/43/2331404/1.jpg?8784');">
+                    <i class="fas fa-mountain" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Himalayan Pink Salt</h3>
+                    <p>Pure Himalayan salt for cleansing and energy purification.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 15,000.00</span>
+                        <button class="btn inquire-btn" data-product="Himalayan Pink Salt" data-price="&#8358; 15,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 999 Incense -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url(' https://i.etsystatic.com/58061288/r/il/635c51/6823194044/il_570xN.6823194044_9drj.jpg');">
+                    <i class="fas fa-infinity" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>999 Incense</h3>
+                    <p>Completion and closure incense for ending cycles successfully.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 4,000.00</span>
+                        <button class="btn inquire-btn" data-product="999 Incense" data-price="&#8358; 4,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- White Candle -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url(' 	https://ng.jumia.is/unsafe/fit-in/680x680/filters:fill(white)/product/88/3246412/1.jpg?9980');">
+                    <i class="fas fa-candle-holder" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>White Candle</h3>
+                    <p>Pure white candles for general spiritual work and purification.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 2,500.00</span>
+                        <button class="btn inquire-btn" data-product="White Candle" data-price="&#8358; 2,500.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+          
+          
+            <!-- Oleo Rheuma Balm -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url(' https://images-eu.ssl-images-amazon.com/images/I/610irJ0AFbL._AC_UL600_SR600,600_.jpg');">
+                    <i class="fas fa-hand-holding-medical" style="display: none;" ></i>
+                </div>
+                <div class="product-info">
+                    <h3>Oleo Rheuma Balm</h3>
+                    <p>Healing balm for physical and spiritual pain relief.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 4000.00</span>
+                        <button class="btn inquire-btn" data-product="Oleo Rheuma Balm" data-price="&#8358; 4000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>            
+            
+            
+           <!-- Original Holy Michael Perfume -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('  https://m.media-amazon.com/images/I/61jE+-0sANL._UF350,350_QL80_.jpg');">
+                    <i class="fas fa-cross" style="display: none;" ></i>
+                </div>
+                <div class="product-info">
+                    <h3>Original Holy Michael Perfume</h3>
+                    <p>Archangel Michael protection perfume for divine safety.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358;4000-&#8358;7000</span>
+                        <button class="btn inquire-btn" data-product="Original Holy Michael Perfume" data-price="&#8358;4000-&#8358;7000">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div> 
+            
+            
+            <!-- Pure Mustard Seed Oil -->
+            <div class="product-card" >
+                <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/16/05/78/160578e44c3cd111613ec7863ef9af81.jpg');" >
+                    <i class="fas fa-seedling" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Pure Mustard Seed Oil</h3>
+                    <p>Faith-based oil for miracles and spiritual breakthroughs.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358;10,000.00</span>
+                        <button class="btn inquire-btn" data-product="Pure Mustard Seed Oil" data-price="&#8358;10,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+           
+            <!-- Pure Original Honey -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://i.etsystatic.com/58596012/r/il/3a8aca/6853780320/il_340x270.6853780320_b5eh.jpg');">
+                    <i class="fas fa-honey-pot" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Pure Original Honey</h3>
+                    <p>Natural honey for sweetening rituals and attracting sweetness.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358;9,000.00</span>
+                        <button class="btn inquire-btn" data-product="Pure Original Honey" data-price="&#8358;9,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+           
+            <!-- Florida Water -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/76/544667/1.jpg?7820');">
+                    <i class="fas fa-water" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Florida Water</h3>
+                    <p>Classic spiritual cologne for cleansing and purification.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358;10,000.00</span>
+                        <button class="btn inquire-btn" data-product="Florida Water" data-price="&#8358;10,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+           
+           <!-- Native Kolanut -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://i.pinimg.com/236x/86/18/16/86181646e970e318e586708e84713267.jpg');">
+                    <i class="fas fa-acorn" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Native Kolanut</h3>
+                    <p>Traditional kola nuts for spiritual ceremonies and offerings.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358;5,000.00</span>
+                        <button class="btn inquire-btn" data-product="Native Kolanut" data-price="&#8358;5,000.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <!-- Do as I Say Incense -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('	https://i.etsystatic.com/49953783/r/il/b52dac/7231826295/il_1140xN.7231826295_ospq.jpg');">
+                    <i class="fas fa-hand-point-down" style="display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>Do as I Say Incense</h3>
+                    <p>Commanding incense for influence and making others follow your directions.</p>
+                    <div class="product-price">
+                        <span class="price">&#8358; 2,500.00</span>
+                        <button class="btn inquire-btn" data-product="Do as I Say Incense" data-price="&#8358; 2,500.00">
+                            Inquire About Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="booking">
+        <div class="container">
+            <div class="booking-container">
+                <div class="booking-text">
+                    <h2>Book a Spiritual Session</h2>
+                    <p>Connect with your higher self through personalized spiritual guidance. Whether you're seeking clarity, healing, or direction, I offer various sessions to support your journey.</p>
+                    <p>Choose from spiritual consultations, energy readings, or custom sessions tailored to your needs.</p>
+                </div>
+                <div class="booking-form">
+                    <h3>Schedule Your Appointment</h3>
+                    <form id="bookingForm" action="https://formspree.io/f/xovkvnle" method="POST">
+                        <input type="hidden" name="_subject" value="New Booking Request - Electric Oracle Spirituals">
+                        <input type="hidden" name="_replyto" value="" id="bookingEmail">
+                        
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Type *</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="Spiritual Consultation - &#8358;20,000">Spiritual Consultation  - &#8358;20,000($30)</option>
+                                
+                                <option value="Custom Spiritual Session -price upon enquiry">Custom Spiritual Session - Price upon enquiry </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="preferred_date">Preferred Date</label>
+                            <input type="date" id="preferred_date" name="preferred_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Special Requests or Questions</label>
+                            <textarea id="message" name="message" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; background: var(--accent-gold);">Submit Booking Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Me</h2>
+                <p>Send me a message for product inquiries or spiritual guidance</p>
+            </div>
+            <form action="https://formspree.io/f/xrbybaao" method="POST" style="max-width: 600px; margin: 0 auto;">
+                <input type="hidden" name="_subject" value="New Contact Message - Electric Oracle Spirituals">
+                
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Message *</label>
+                    <textarea name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="social-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Connect With Me</h2>
+                <p>Follow for daily spiritual insights, product updates, and special offers</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/electric_spiritual_store?utm_source=qr&igsh=MXJpZDZ0aDd5ejhp" class="social-icon" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/share/18cUTWUphS/" class="social-icon" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.tiktok.com/@ezenwanyielectricoracle?_t=ZS-901Xk6Qz5T0&_r=1" class="social-icon" target="_blank">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://youtube.com/@electricoraclechannel?si=mHoi92j_WgQeEtEz" class="social-icon" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                </a>
+                <a href="https://wa.me/2348060537893?text=Hello%20I%20am%20interested%20in%20your%20products%20and%20services" class="social-icon" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Electric Oracle Spirituals</h3>
+                    <p>Providing authentic spiritual tools and divine guidance to help you on your journey of self-discovery and enlightenment.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#booking">Book a Session</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> electricoraclespiritual@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +2348060537893</li>
+                        <li><i class="fas fa-map-marker-alt"></i> NNEWI ANAMBRA, NIGERIA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Electric Oracle Spirituals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inquiry Modal -->
+    <div id="inquiryModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h3>Inquire about <span class="modal-product-name" id="modalProductName"></span></h3>
+            </div>
+            <form id="inquiryForm" action="https://formspree.io/f/xanpnddg" method="POST">
+                <input type="hidden" name="_subject" value="New Product Inquiry - Electric Oracle Spirituals">
+                <input type="hidden" name="_replyto" value="" id="inquiryEmail">
+                <input type="hidden" id="selectedProduct" name="product">
+                
+                <div class="form-group">
+                    <label for="inquiryName">Your Name *</label>
+                    <input type="text" id="inquiryName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="inquiryEmail">Your Email *</label>
+                    <input type="email" id="inquiryEmailInput" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="inquiryMessage">Your Message *</label>
+                    <textarea id="inquiryMessage" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Send Inquiry</button>
+                
+                <div class="success-message" id="inquirySuccess">
+                    Thank you! Your inquiry has been sent successfully.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Product Inquiry Modal System
+        const inquiryModal = document.getElementById('inquiryModal');
+        const modalProductName = document.getElementById('modalProductName');
+        const selectedProductInput = document.getElementById('selectedProduct');
+        const inquiryMessage = document.getElementById('inquiryMessage');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const inquirySuccess = document.getElementById('inquirySuccess');
+
+        // Open modal when inquiry button is clicked
+        document.querySelectorAll('.inquire-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.getAttribute('data-product');
+                const productPrice = this.getAttribute('data-price');
+                
+                // Update modal content
+                modalProductName.textContent = productName;
+                selectedProductInput.value = productName;
+                
+                // Pre-fill the message with product details
+                inquiryMessage.value = `Hello! I'm interested in your ${productName} (${productPrice}). Could you please provide more information about this product, including availability and shipping options?`;
+                
+                // Reset success message
+                inquirySuccess.style.display = 'none';
+                
+                // Show modal
+                inquiryModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close modal functions
+        function closeInquiryModal() {
+            inquiryModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeInquiryModal);
+
+        // Close modal when clicking outside
+        inquiryModal.addEventListener('click', function(e) {
+            if (e.target === inquiryModal) {
+                closeInquiryModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && inquiryModal.style.display === 'block') {
+                closeInquiryModal();
+            }
+        });
+
+        // Handle inquiry form submission
+        document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+            // Form will automatically submit to Formspree
+            // Show success message
+            inquirySuccess.style.display = 'block';
+            
+            // Close modal after 2 seconds
+            setTimeout(() => {
+                closeInquiryModal();
+            }, 2000);
+        });
+
+        // Set reply-to email for forms
+        document.getElementById('bookingForm').addEventListener('submit', function() {
+            const email = document.getElementById('email').value;
+            document.getElementById('bookingEmail').value = email;
+        });
+
+        document.getElementById('inquiryForm').addEventListener('submit', function() {
+            const email = document.getElementById('inquiryEmailInput').value;
+            document.getElementById('inquiryEmail').value = email;
+        });
+    </script>
+</body>
+</html>
