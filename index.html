@@ -1165,9 +1165,8 @@
                             <label for="service">Service Type *</label>
                             <select id="service" name="service" required>
                                 <option value="">Select a service</option>
-                                <option value="Spiritual Consultation - &#8358;20,000">Spiritual Consultation  - &#8358;20,000($30)</option>
-                                
-                                <option value="Custom Spiritual Session -price upon enquiry">Custom Spiritual Session - Price upon enquiry </option>
+                                <option value="Spiritual Consultation - ₦20,000 ($30)" data-amount="20000">Spiritual Consultation  - ₦20,000 ($30)</option>
+                                <option value="Custom Spiritual Session - Price upon enquiry">Custom Spiritual Session - Price upon enquiry</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1306,6 +1305,35 @@
         </div>
     </div>
 
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeCheckout">&times;</button>
+            <div class="modal-header">
+                <h3>Checkout: <span class="modal-product-name" id="checkoutProductName"></span></h3>
+            </div>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="checkoutName">Full Name *</label>
+                    <input type="text" id="checkoutName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkoutEmail">Email Address *</label>
+                    <input type="email" id="checkoutEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkoutQuantity">Quantity *</label>
+                    <input type="number" id="checkoutQuantity" name="quantity" min="1" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkoutAddress">Delivery Address *</label>
+                    <textarea id="checkoutAddress" name="address" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Pay Now</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Paystack Integration
         const PAYSTACK_PUBLIC_KEY = 'pk_test_replace_with_your_key';
@@ -1386,22 +1414,49 @@
             });
         }
 
+        // Checkout Modal logic replacing browser prompts
+        const checkoutModal = document.getElementById('checkoutModal');
+        const closeCheckoutBtn = document.getElementById('closeCheckout');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const checkoutProductNameSpan = document.getElementById('checkoutProductName');
+        let checkoutContext = { productName: '', amountNaira: 0 };
+
+        function openCheckoutModal(productName, amountNaira) {
+            checkoutContext = { productName, amountNaira };
+            checkoutProductNameSpan.textContent = productName;
+            checkoutForm.reset();
+            checkoutModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckoutModal() {
+            checkoutModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
         function handleBuyClick(e) {
             const target = e.target.closest('.buy-btn');
             if (!target) return;
             const productName = target.getAttribute('data-product');
             const amountNaira = Number(target.getAttribute('data-amount'));
-            const quantityStr = prompt(`Enter quantity for ${productName}:`, '1');
-            if (quantityStr === null) return; // cancelled
-            const quantity = Math.max(1, parseInt(quantityStr, 10) || 1);
+            openCheckoutModal(productName, amountNaira);
+        }
 
-            const email = prompt('Enter your email for receipt:');
-            if (!email) return;
+        closeCheckoutBtn.addEventListener('click', closeCheckoutModal);
+        checkoutModal.addEventListener('click', function(e) {
+            if (e.target === checkoutModal) closeCheckoutModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && checkoutModal.style.display === 'block') closeCheckoutModal();
+        });
 
-            const customerName = prompt('Enter your full name:');
-            const shippingAddress = prompt('Enter your full delivery address (House address):');
-            const totalAmountKobo = formatKobo(amountNaira * quantity);
-            if (!totalAmountKobo) return;
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const customerName = document.getElementById('checkoutName').value.trim();
+            const email = document.getElementById('checkoutEmail').value.trim();
+            const quantity = Math.max(1, parseInt(document.getElementById('checkoutQuantity').value, 10) || 1);
+            const shippingAddress = document.getElementById('checkoutAddress').value.trim();
+            const totalAmountKobo = formatKobo(checkoutContext.amountNaira * quantity);
 
             if (!window.PaystackPop) {
                 alert('Payment library not loaded. Please check your internet connection and try again.');
@@ -1417,19 +1472,20 @@
                 metadata: {
                     custom_fields: [
                         { display_name: 'Customer Name', variable_name: 'customer_name', value: customerName || '' },
-                        { display_name: 'Product', variable_name: 'product', value: productName },
+                        { display_name: 'Product', variable_name: 'product', value: checkoutContext.productName },
                         { display_name: 'Quantity', variable_name: 'quantity', value: String(quantity) },
                         { display_name: 'Shipping Address', variable_name: 'shipping_address', value: shippingAddress || '' }
                     ]
                 },
                 callback: function(response) {
+                    closeCheckoutModal();
                     alert(`Payment successful! Reference: ${response.reference}`);
                     notifyPaymentViaEmail({
                         reference: response.reference,
-                        productName,
+                        productName: checkoutContext.productName,
                         quantity,
-                        amountNaira,
-                        totalAmountNaira: amountNaira * quantity,
+                        amountNaira: checkoutContext.amountNaira,
+                        totalAmountNaira: checkoutContext.amountNaira * quantity,
                         customerEmail: email,
                         customerName: customerName || '',
                         shippingAddress: shippingAddress || ''
@@ -1440,7 +1496,7 @@
                 }
             });
             handler.openIframe();
-        }
+        });
 
         // Send payment notification via Formspree to recipient's email
         async function notifyPaymentViaEmail(details) {
@@ -1574,6 +1630,71 @@
             setTimeout(() => {
                 closeInquiryModal();
             }, 2000);
+        });
+
+        // Intercept booking form to integrate payment when needed
+        const bookingForm = document.getElementById('bookingForm');
+        bookingForm.addEventListener('submit', function(e) {
+            const serviceSelect = document.getElementById('service');
+            const selected = serviceSelect.options[serviceSelect.selectedIndex];
+            const amountAttr = selected?.getAttribute('data-amount');
+            if (!amountAttr) {
+                // No amount → allow normal submit to Formspree
+                return;
+            }
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const preferredDate = document.getElementById('preferred_date').value;
+            const message = document.getElementById('message').value.trim();
+            const service = selected.value;
+
+            const amountKobo = formatKobo(Number(amountAttr));
+            if (!window.PaystackPop) {
+                alert('Payment library not loaded. Please check your internet connection and try again.');
+                return;
+            }
+
+            const handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: email,
+                amount: amountKobo,
+                currency: 'NGN',
+                ref: `EO-BKG-${Date.now()}-${Math.floor(Math.random()*100000)}`,
+                metadata: {
+                    custom_fields: [
+                        { display_name: 'Customer Name', variable_name: 'customer_name', value: name },
+                        { display_name: 'Service', variable_name: 'service', value: service },
+                        { display_name: 'Phone', variable_name: 'phone', value: phone },
+                        { display_name: 'Preferred Date', variable_name: 'preferred_date', value: preferredDate }
+                    ]
+                },
+                callback: function(response) {
+                    // Send booking details via Formspree with payment reference
+                    fetch(bookingForm.action, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({
+                            _subject: 'New Booking Request (Paid) - Electric Oracle Spirituals',
+                            name,
+                            email,
+                            phone,
+                            service,
+                            preferred_date: preferredDate,
+                            message,
+                            payment_reference: response.reference
+                        })
+                    }).finally(() => {
+                        alert(`Booking payment successful! Reference: ${response.reference}`);
+                    });
+                },
+                onClose: function() {
+                    // Payment window closed
+                }
+            });
+            handler.openIframe();
         });
 
         // Set reply-to email for forms
