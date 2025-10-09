@@ -233,15 +233,26 @@
 
         .product-price {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .price {
             font-weight: bold;
             color: var(--primary-purple);
             font-size: 1.2rem;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 6px;
+            white-space: nowrap;
+            flex: 1 1 auto;
         }
+        .price .currency { font-weight: 700; }
+        .price .amount { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+        .product-price .btn { flex: 0 0 auto; }
+        .product-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
         /* Booking Section */
         .booking {
@@ -524,6 +535,7 @@
             }
         }
     </style>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -610,7 +622,7 @@
                         <h3>Original Divine Favour Perfume</h3>
                         <p>Attract supernatural favor in all areas of life. Opens doors and creates opportunities through divine intervention.</p>
                         <div class="product-price">
-                            <span class="price">&#8358;5000&#8208;&#8358;15000</span>
+                            <span class="price">&#8358;5,000 - &#8358;15,000</span>
                             <button class="btn inquire-btn" data-product="Original Divine Favour Perfume" data-price="&#8358; 5000.00" style="padding: 8px 15px; font-size: 0.9rem;">
                                 Inquire About Product
                             </button>
@@ -971,7 +983,7 @@
                     <h3>Oleo Rheuma Balm</h3>
                     <p>Healing balm for physical and spiritual pain relief.</p>
                     <div class="product-price">
-                        <span class="price">&#8358; 4000.00</span>
+                        <span class="price">&#8358; 4,000.00</span>
                         <button class="btn inquire-btn" data-product="Oleo Rheuma Balm" data-price="&#8358; 4000.00">
                             Inquire About Product
                         </button>
@@ -1295,6 +1307,192 @@
     </div>
 
     <script>
+        // Paystack Integration
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_replace_with_your_key';
+
+        const productPriceMap = {
+            'Original Back to Sender Perfume': 8000,
+            // Divine Grace has a price range; used only for display. Default checkout uses minimum by default.
+            'Original Divine Grace Perfume': 4000,
+            'Original Divine Favour Perfume': 5000,
+            'Open My Way Perfume': 15000,
+            'Holy Jordan Water': 5000,
+            'Alligator Pepper': 1000,
+            'Original Six Flower Oil': 3000,
+            'Stick Incense Burner': 5000,
+            'Bint el Sudan & Six Flower Powder': 800,
+            'Challenge Perfume': 15000,
+            'GAN DOKI OIL (250ML)': 27000,
+            'Zaffraram Oil': 14000,
+            'Monogotas coco Perfume': 20000,
+            'Reva Dor Perfume': 45000,
+            'Call Money Incense': 4000,
+            'Love Magnet Incense': 3000,
+            'Quick Money Attraction': 3000,
+            'Garden of Angel Incense': 6000,
+            'Rose Water': 8000,
+            'Original Sasorabia Oil': 3000,
+            'Himalayan Pink Salt': 15000,
+            '999 Incense': 4000,
+            'White Candle': 2500,
+            'Oleo Rheuma Balm': 4000,
+            'Original Holy Michael Perfume': 4000,
+            'Pure Mustard Seed Oil': 10000,
+            'Pure Original Honey': 9000,
+            'Florida Water': 10000,
+            'Native Kolanut': 5000,
+            'Do as I Say Incense': 2500
+        };
+
+        function formatKobo(nairaAmount) {
+            const n = Number(nairaAmount);
+            if (!Number.isFinite(n) || n <= 0) return null;
+            return Math.round(n * 100);
+        }
+
+        function createBuyButtons() {
+            document.querySelectorAll('.product-card').forEach(card => {
+                const productName = card.querySelector('.inquire-btn')?.getAttribute('data-product') || card.querySelector('h3')?.textContent?.trim();
+                const container = card.querySelector('.product-price');
+                if (!productName || !container) return;
+
+                // Avoid duplicate buttons if rerun
+                if (container.querySelector('.buy-btn')) return;
+
+                const priceNaira = productPriceMap[productName];
+                if (!priceNaira) return; // Skip if not in map
+
+                // Wrap action buttons under price
+                let actions = container.querySelector('.product-actions');
+                if (!actions) {
+                    actions = document.createElement('div');
+                    actions.className = 'product-actions';
+                    const inquire = card.querySelector('.inquire-btn');
+                    if (inquire && inquire.parentElement !== actions) {
+                        inquire.parentElement?.removeChild(inquire);
+                        actions.appendChild(inquire);
+                    }
+                    container.appendChild(actions);
+                }
+
+                const buyBtn = document.createElement('button');
+                buyBtn.className = 'btn buy-btn';
+                buyBtn.style.padding = '8px 15px';
+                buyBtn.style.fontSize = '0.9rem';
+                buyBtn.textContent = 'Buy Now';
+                buyBtn.setAttribute('data-product', productName);
+                buyBtn.setAttribute('data-amount', String(priceNaira));
+                actions.appendChild(buyBtn);
+            });
+        }
+
+        function handleBuyClick(e) {
+            const target = e.target.closest('.buy-btn');
+            if (!target) return;
+            const productName = target.getAttribute('data-product');
+            const amountNaira = Number(target.getAttribute('data-amount'));
+            const quantityStr = prompt(`Enter quantity for ${productName}:`, '1');
+            if (quantityStr === null) return; // cancelled
+            const quantity = Math.max(1, parseInt(quantityStr, 10) || 1);
+
+            const email = prompt('Enter your email for receipt:');
+            if (!email) return;
+
+            const customerName = prompt('Enter your full name:');
+            const shippingAddress = prompt('Enter your full delivery address (House address):');
+            const totalAmountKobo = formatKobo(amountNaira * quantity);
+            if (!totalAmountKobo) return;
+
+            if (!window.PaystackPop) {
+                alert('Payment library not loaded. Please check your internet connection and try again.');
+                return;
+            }
+
+            const handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: email,
+                amount: totalAmountKobo,
+                currency: 'NGN',
+                ref: `EO-${Date.now()}-${Math.floor(Math.random()*100000)}`,
+                metadata: {
+                    custom_fields: [
+                        { display_name: 'Customer Name', variable_name: 'customer_name', value: customerName || '' },
+                        { display_name: 'Product', variable_name: 'product', value: productName },
+                        { display_name: 'Quantity', variable_name: 'quantity', value: String(quantity) },
+                        { display_name: 'Shipping Address', variable_name: 'shipping_address', value: shippingAddress || '' }
+                    ]
+                },
+                callback: function(response) {
+                    alert(`Payment successful! Reference: ${response.reference}`);
+                    notifyPaymentViaEmail({
+                        reference: response.reference,
+                        productName,
+                        quantity,
+                        amountNaira,
+                        totalAmountNaira: amountNaira * quantity,
+                        customerEmail: email,
+                        customerName: customerName || '',
+                        shippingAddress: shippingAddress || ''
+                    });
+                },
+                onClose: function() {
+                    // Payment window closed
+                }
+            });
+            handler.openIframe();
+        }
+
+        // Send payment notification via Formspree to recipient's email
+        async function notifyPaymentViaEmail(details) {
+            try {
+                const formEndpoint = 'https://formspree.io/f/xrbybaao'; // Using Contact form endpoint to deliver notification
+                const subject = `New Payment Received: ${details.productName} (Ref: ${details.reference})`;
+                const message = [
+                    `Payment Reference: ${details.reference}`,
+                    `Product: ${details.productName}`,
+                    `Quantity: ${details.quantity}`,
+                    `Unit Price (₦): ${Number(details.amountNaira).toLocaleString()}`,
+                    `Total Paid (₦): ${Number(details.totalAmountNaira).toLocaleString()}`,
+                    `Customer Name: ${details.customerName || 'N/A'}`,
+                    `Customer Email: ${details.customerEmail}`,
+                    `Shipping Address: ${details.shippingAddress || 'N/A'}`
+                ].join('\n');
+
+                await fetch(formEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: subject,
+                        name: details.customerName || 'Payment Notification',
+                        email: details.customerEmail,
+                        _replyto: details.customerEmail,
+                        message
+                    })
+                });
+            } catch (err) {
+                console.error('Failed to send payment notification', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createBuyButtons();
+            document.body.addEventListener('click', handleBuyClick);
+            // Normalize price markup for alignment
+            document.querySelectorAll('.product-card .price').forEach(span => {
+                if (span.dataset.enhanced === '1') return;
+                const txt = span.textContent.trim();
+                // Extract currency and amount or range; allow optional currency on the second value
+                const match = txt.match(/([₦\&#8358;]+)\s*([0-9.,]+(?:\s*[\-–—]\s*(?:[₦\&#8358;]+)?\s*[0-9.,]+)?)/i);
+                if (match) {
+                    const currency = match[1]
+                        .replace(/&#8358;/g, '₦')
+                        .replace(/\s+/g, '');
+                    const amount = match[2].replace(/\s+/g, '');
+                    span.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
+                    span.dataset.enhanced = '1';
+                }
+            });
+        });
         // Mobile Menu Toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('nav ul').classList.toggle('show');
