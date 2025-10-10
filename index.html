@@ -286,6 +286,13 @@
             border-radius: 10px;
             backdrop-filter: blur(10px);
         }
+        /* Ensure modal form fields have solid contrast */
+        #loginModal .modal-content input,
+        #loginModal .modal-content textarea,
+        #loginModal .modal-content select {
+            background: #fff;
+            color: var(--text-dark);
+        }
 
         .form-group {
             margin-bottom: 1.5rem;
@@ -301,9 +308,17 @@
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.98);
+            color: var(--text-dark);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-purple);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(109, 68, 197, 0.15);
         }
 
         /* Modal Styles */
@@ -536,6 +551,9 @@
         }
     </style>
     <script src="https://js.paystack.co/v1/inline.js"></script>
+    <!-- Firebase Auth (Compat SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -1347,6 +1365,14 @@
                     <label for="loginEmail">Email Address *</label>
                     <input type="email" id="loginEmail" required>
                 </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password *</label>
+                    <input type="password" id="loginPassword" minlength="6" required>
+                </div>
+                <div class="form-group" style="display:flex;align-items:center;gap:8px;">
+                    <input type="checkbox" id="loginNewUser">
+                    <label for="loginNewUser">Create account (first time)</label>
+                </div>
                 <button type="submit" class="btn" style="width: 100%;">Continue</button>
             </form>
         </div>
@@ -1548,6 +1574,98 @@
             }
         }
 
+        // Firebase Auth Setup
+        const firebaseConfig = {
+            apiKey: 'AIzaSyCoJMicGtjod9Q1fhRmyfLeRc1HRPjapGk',
+            authDomain: 'electric-oracle-8018d.firebaseapp.com',
+            projectId: 'electric-oracle-8018d',
+            appId: '1:73010959687:web:62c7999e01aac35e2d2862'
+        };
+        try { firebase.initializeApp(firebaseConfig); } catch (e) {}
+        const auth = firebase.auth();
+
+        // Login Gate (Firebase Auth)
+        const loginModal = document.getElementById('loginModal');
+        const closeLoginBtn = document.getElementById('closeLogin');
+        const loginForm = document.getElementById('loginForm');
+        const accountLink = document.getElementById('accountLink');
+
+        function isLoggedIn() {
+            return !!auth.currentUser;
+        }
+
+        function openLogin() {
+            if (!loginModal) return;
+            loginModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLogin() {
+            if (!loginModal) return;
+            loginModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateAccountLink() {
+            if (!accountLink) return;
+            accountLink.textContent = isLoggedIn() ? 'Sign Out' : 'Sign In';
+        }
+
+        function initLoginGate() {
+            updateAccountLink();
+            if (!isLoggedIn()) {
+                openLogin();
+            }
+        }
+
+        if (accountLink) {
+            accountLink.addEventListener('click', async function(e) {
+                e.preventDefault();
+                if (isLoggedIn()) {
+                    await auth.signOut();
+                    updateAccountLink();
+                    openLogin();
+                } else {
+                    openLogin();
+                }
+            });
+        }
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = (document.getElementById('loginEmail')?.value || '').trim();
+                const password = (document.getElementById('loginPassword')?.value || '');
+                const isNew = document.getElementById('loginNewUser')?.checked;
+                if (!email || !password || password.length < 6) return;
+                try {
+                    if (isNew) {
+                        await auth.createUserWithEmailAndPassword(email, password);
+                    } else {
+                        await auth.signInWithEmailAndPassword(email, password);
+                    }
+                    closeLogin();
+                    updateAccountLink();
+                } catch (err) {
+                    alert(err.message || 'Authentication failed.');
+                }
+            });
+        }
+
+        if (closeLoginBtn && loginModal) {
+            closeLoginBtn.addEventListener('click', closeLogin);
+            loginModal.addEventListener('click', function(e) { if (e.target === loginModal) closeLogin(); });
+            document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && loginModal.style.display === 'block') closeLogin(); });
+        }
+
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+        auth.onAuthStateChanged(function(user) {
+            updateAccountLink();
+            if (!user) {
+                openLogin();
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             createBuyButtons();
             document.body.addEventListener('click', handleBuyClick);
@@ -1566,6 +1684,8 @@
                     span.dataset.enhanced = '1';
                 }
             });
+            // Initialize login gate
+            initLoginGate();
         });
         // Mobile Menu Toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
