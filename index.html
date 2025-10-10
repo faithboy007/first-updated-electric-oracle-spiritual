@@ -556,6 +556,7 @@
                         <li><a href="#booking">Bookings</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <li><a href="#" id="accountLink">Sign In</a></li>
                     </ul>
                 </nav>
             </div>
@@ -1330,6 +1331,23 @@
                     <textarea id="checkoutAddress" name="address" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">Pay Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeLogin">&times;</button>
+            <div class="modal-header">
+                <h3>Sign In</h3>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address *</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Continue</button>
             </form>
         </div>
     </div>
