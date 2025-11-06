@@ -245,12 +245,19 @@
             font-size: 1.2rem;
             display: inline-flex;
             align-items: baseline;
-            gap: 6px;
+            gap: 3px;
             white-space: nowrap;
             flex: 1 1 auto;
         }
-        .price .currency { font-weight: 700; }
-        .price .amount { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+        .price .currency { 
+            font-weight: 700;
+            margin-right: 0;
+        }
+        .price .amount { 
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0;
+            margin-left: 0;
+        }
         .product-price .btn { flex: 0 0 auto; }
         .product-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -2626,8 +2633,14 @@
                 if (match) {
                     const currency = match[1]
                         .replace(/&#8358;/g, '₦')
-                        .replace(/\s+/g, '');
-                    const amount = match[2].replace(/\s+/g, '');
+                        .replace(/\s+/g, '')
+                        .trim();
+                    // Normalize spaces in amount - replace multiple spaces with single space, then trim
+                    const amount = match[2]
+                        .replace(/\s+/g, ' ')
+                        .replace(/\s*([\-–—])\s*/g, ' $1 ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
                     span.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
                     span.dataset.enhanced = '1';
                 }
