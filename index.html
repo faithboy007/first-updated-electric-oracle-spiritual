@@ -2253,7 +2253,9 @@
         function openCartCheckoutModal() {
             const modal = document.getElementById('checkoutModal');
             const productNameSpan = document.getElementById('checkoutProductName');
-            productNameSpan.textContent = `${cart.length} item${cart.length > 1 ? 's' : ''}`;
+            const totalAmount = getCartTotal();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            productNameSpan.textContent = `${totalItems} item${totalItems > 1 ? 's' : ''} - Total: ₦${totalAmount.toLocaleString()}`;
             document.getElementById('checkoutQuantity').parentElement.style.display = 'none'; // Hide quantity field
             checkoutForm.reset();
             modal.style.display = 'block';
