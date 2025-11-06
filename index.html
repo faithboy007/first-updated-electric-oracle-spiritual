@@ -2118,20 +2118,20 @@
                 cartSummary.style.display = 'block';
                 
                 cartItemsContainer.innerHTML = cart.map(item => `
-                    <div class="cart-item">
+                    <div class="cart-item" data-product-name="${item.name.replace(/"/g, '&quot;')}">
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
                             <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
                         </div>
                         <div class="cart-item-controls">
-                            <button class="quantity-btn" onclick="updateQuantity('${item.name.replace(/'/g, "\\'")}'', ${item.quantity - 1})">
+                            <button class="quantity-btn decrease-btn" data-action="decrease">
                                 <i class="fas fa-minus"></i>
                             </button>
                             <span class="quantity-display">${item.quantity}</span>
-                            <button class="quantity-btn" onclick="updateQuantity('${item.name.replace(/'/g, "\\'")}'', ${item.quantity + 1})">
+                            <button class="quantity-btn increase-btn" data-action="increase">
                                 <i class="fas fa-plus"></i>
                             </button>
-                            <button class="remove-item-btn" onclick="removeFromCart('${item.name.replace(/'/g, "\\'")}'')">
+                            <button class="remove-item-btn" data-action="remove">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -2199,6 +2199,30 @@
 
         cartModal.addEventListener('click', function(e) {
             if (e.target === cartModal) closeCartModal();
+        });
+
+        // Handle cart item controls (quantity and remove)
+        document.addEventListener('click', function(e) {
+            const cartItem = e.target.closest('.cart-item');
+            if (!cartItem) return;
+            
+            const productName = cartItem.getAttribute('data-product-name');
+            if (!productName) return;
+            
+            const button = e.target.closest('button');
+            if (!button) return;
+            
+            const action = button.getAttribute('data-action');
+            const item = cart.find(item => item.name === productName);
+            if (!item) return;
+            
+            if (action === 'decrease') {
+                updateQuantity(productName, item.quantity - 1);
+            } else if (action === 'increase') {
+                updateQuantity(productName, item.quantity + 1);
+            } else if (action === 'remove') {
+                removeFromCart(productName);
+            }
         });
 
         // Handle Add to Cart button clicks
