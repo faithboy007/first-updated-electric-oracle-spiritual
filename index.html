@@ -332,6 +332,7 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             animation: fadeIn 0.3s;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
@@ -346,6 +347,219 @@
             max-width: 500px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s;
+        }
+
+        /* Modern Login Modal Styles */
+        #loginModal .modal-content {
+            max-width: 450px;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .login-modal-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-purple) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-modal-header h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .login-modal-header .logo-icon {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        #loginModal .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loginModal .close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .login-tabs {
+            display: flex;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+
+        .login-tab:hover {
+            background: rgba(109, 68, 197, 0.05);
+            color: var(--primary-purple);
+        }
+
+        .login-tab.active {
+            background: white;
+            color: var(--primary-purple);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        .login-form-container {
+            padding: 2rem;
+        }
+
+        .login-tab-content {
+            display: none;
+        }
+
+        .login-tab-content.active {
+            display: block;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-input-wrapper input {
+            padding-right: 45px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary-purple);
+        }
+
+        #loginModal .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        #loginModal .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        #loginModal .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        #loginModal .form-group input:focus {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(109, 68, 197, 0.1);
+            outline: none;
+        }
+
+        #loginModal .btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, #8b5fd6 100%);
+            border: none;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        #loginModal .btn:hover {
+            background: linear-gradient(135deg, #8b5fd6 0%, var(--primary-purple) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(109, 68, 197, 0.3);
+        }
+
+        .login-helper-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .login-divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .login-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .login-divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            color: #999;
+            font-size: 0.85rem;
         }
 
         .modal-header {
@@ -1153,6 +1367,51 @@
         </div>
     </section>
 
+    <!-- About Section -->
+    <section id="about" style="padding: 4rem 0; background: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Electric Oracle Spirituals</h2>
+            </div>
+            <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+                <div style="margin-bottom: 2rem;">
+                    <i class="fas fa-crystal" style="font-size: 4rem; color: var(--primary-purple); margin-bottom: 1rem;"></i>
+                </div>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--text-dark);">
+                    Welcome to <strong>Electric Oracle Spirituals</strong>, your trusted source for authentic spiritual products and divine guidance. We are dedicated to helping individuals on their journey of self-discovery, spiritual growth, and enlightenment.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--text-dark);">
+                    Our carefully curated collection includes traditional spiritual perfumes, sacred oils, cleansing waters, powerful incenses, and other mystical tools that have been used for generations to protect, heal, and elevate the spirit. Each product is selected with intention and respect for ancient spiritual practices.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--text-dark);">
+                    Beyond our products, we offer personalized spiritual consultations and sessions to guide you through life's challenges. Whether you seek clarity, protection, favor, or spiritual breakthroughs, we are here to support your path with wisdom and authenticity.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-check-circle" style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Authentic Products</h3>
+                        <p style="color: #666;">Original spiritual items sourced with care and integrity</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-heart" style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Trusted Guidance</h3>
+                        <p style="color: #666;">Experienced spiritual consultation and personalized support</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-shipping-fast" style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Reliable Service</h3>
+                        <p style="color: #666;">Fast delivery and responsive customer care across Nigeria</p>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem;">
+                    <p style="font-size: 1rem; color: #666; font-style: italic;">
+                        Located in Nnewi, Anambra State, Nigeria | Serving spiritual seekers nationwide
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Booking Section -->
     <section class="booking" id="booking">
         <div class="container">
@@ -1356,25 +1615,81 @@
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" id="closeLogin">&times;</button>
-            <div class="modal-header">
-                <h3>Sign In</h3>
+            <div class="login-modal-header">
+                <button class="close-modal" id="closeLogin">&times;</button>
+                <i class="fas fa-crystal logo-icon"></i>
+                <h3>Electric Oracle Spirituals</h3>
             </div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email Address *</label>
-                    <input type="email" id="loginEmail" required>
+            
+            <div class="login-tabs">
+                <button class="login-tab active" data-tab="login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="login-tab" data-tab="signup">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
+            
+            <div class="login-form-container">
+                <!-- Login Form -->
+                <div class="login-tab-content active" id="loginTabContent">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="loginPassword" placeholder="Enter your password" minlength="6" required>
+                                <button type="button" class="password-toggle" data-target="loginPassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-sign-in-alt"></i> Login to Continue
+                        </button>
+                        <p class="login-helper-text">
+                            Don't have an account? <a href="#" style="color: var(--primary-purple); font-weight: 600;" onclick="document.querySelector('[data-tab=\'signup\']').click(); return false;">Sign up here</a>
+                        </p>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password *</label>
-                    <input type="password" id="loginPassword" minlength="6" required>
+                
+                <!-- Sign Up Form -->
+                <div class="login-tab-content" id="signupTabContent">
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signupEmail">Email Address</label>
+                            <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="signupPassword" placeholder="Create a password (min 6 characters)" minlength="6" required>
+                                <button type="button" class="password-toggle" data-target="signupPassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPasswordConfirm">Confirm Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="signupPasswordConfirm" placeholder="Confirm your password" minlength="6" required>
+                                <button type="button" class="password-toggle" data-target="signupPasswordConfirm">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                        <p class="login-helper-text">
+                            Already have an account? <a href="#" style="color: var(--primary-purple); font-weight: 600;" onclick="document.querySelector('[data-tab=\'login\']').click(); return false;">Login here</a>
+                        </p>
+                    </form>
                 </div>
-                <div class="form-group" style="display:flex;align-items:center;gap:8px;">
-                    <input type="checkbox" id="loginNewUser">
-                    <label for="loginNewUser">Create account (first time)</label>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">Continue</button>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -1590,7 +1905,46 @@
         const loginModal = document.getElementById('loginModal');
         const closeLoginBtn = document.getElementById('closeLogin');
         const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
         const accountLink = document.getElementById('accountLink');
+
+        // Tab Switching
+        document.querySelectorAll('.login-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                
+                // Update active tab
+                document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update active content
+                document.querySelectorAll('.login-tab-content').forEach(c => c.classList.remove('active'));
+                if (targetTab === 'login') {
+                    document.getElementById('loginTabContent').classList.add('active');
+                } else {
+                    document.getElementById('signupTabContent').classList.add('active');
+                }
+            });
+        });
+
+        // Password Toggle
+        document.querySelectorAll('.password-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
 
         function isLoggedIn() {
             return !!auth.currentUser;
@@ -1604,6 +1958,8 @@
 
         function closeLogin() {
             if (!loginModal) return;
+            // Only allow closing if user is logged in
+            if (!isLoggedIn()) return;
             loginModal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
@@ -1633,31 +1989,74 @@
             });
         }
 
+        // Login Form Handler
         if (loginForm) {
             loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const email = (document.getElementById('loginEmail')?.value || '').trim();
                 const password = (document.getElementById('loginPassword')?.value || '');
-                const isNew = document.getElementById('loginNewUser')?.checked;
                 if (!email || !password || password.length < 6) return;
                 try {
-                    if (isNew) {
-                        await auth.createUserWithEmailAndPassword(email, password);
-                    } else {
-                        await auth.signInWithEmailAndPassword(email, password);
-                    }
+                    await auth.signInWithEmailAndPassword(email, password);
                     closeLogin();
                     updateAccountLink();
                 } catch (err) {
-                    alert(err.message || 'Authentication failed.');
+                    alert(err.message || 'Login failed. Please check your credentials.');
+                }
+            });
+        }
+
+        // Sign Up Form Handler
+        if (signupForm) {
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = (document.getElementById('signupEmail')?.value || '').trim();
+                const password = (document.getElementById('signupPassword')?.value || '');
+                const passwordConfirm = (document.getElementById('signupPasswordConfirm')?.value || '');
+                
+                if (!email || !password || password.length < 6) return;
+                
+                if (password !== passwordConfirm) {
+                    alert('Passwords do not match. Please try again.');
+                    return;
+                }
+                
+                try {
+                    await auth.createUserWithEmailAndPassword(email, password);
+                    closeLogin();
+                    updateAccountLink();
+                    alert('Account created successfully! Welcome to Electric Oracle Spirituals.');
+                } catch (err) {
+                    alert(err.message || 'Sign up failed. Please try again.');
                 }
             });
         }
 
         if (closeLoginBtn && loginModal) {
-            closeLoginBtn.addEventListener('click', closeLogin);
-            loginModal.addEventListener('click', function(e) { if (e.target === loginModal) closeLogin(); });
-            document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && loginModal.style.display === 'block') closeLogin(); });
+            closeLoginBtn.addEventListener('click', function() {
+                // Only close if logged in, otherwise show alert
+                if (!isLoggedIn()) {
+                    alert('Please login or sign up to access Electric Oracle Spirituals.');
+                    return;
+                }
+                closeLogin();
+            });
+            loginModal.addEventListener('click', function(e) { 
+                if (e.target === loginModal && !isLoggedIn()) {
+                    alert('Please login or sign up to access Electric Oracle Spirituals.');
+                    return;
+                }
+                if (e.target === loginModal) closeLogin(); 
+            });
+            document.addEventListener('keydown', function(e) { 
+                if (e.key === 'Escape' && loginModal.style.display === 'block') {
+                    if (!isLoggedIn()) {
+                        alert('Please login or sign up to access Electric Oracle Spirituals.');
+                        return;
+                    }
+                    closeLogin();
+                }
+            });
         }
 
         auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
