@@ -2635,12 +2635,33 @@
                         .replace(/&#8358;/g, '₦')
                         .replace(/\s+/g, '')
                         .trim();
-                    // Normalize spaces in amount - replace multiple spaces with single space, then trim
-                    const amount = match[2]
-                        .replace(/\s+/g, ' ')
-                        .replace(/\s*([\-–—])\s*/g, ' $1 ')
+                    
+                    // Function to add thousand separators
+                    const formatNumber = (num) => {
+                        // Remove existing commas and decimals
+                        const cleanNum = num.replace(/[,. ]/g, '');
+                        // Add thousand separators
+                        return parseInt(cleanNum).toLocaleString('en-US');
+                    };
+                    
+                    // Process the amount - handle ranges and single values
+                    let amount = match[2]
                         .replace(/\s+/g, ' ')
                         .trim();
+                    
+                    // Check if it's a range (contains dash)
+                    if (amount.match(/[\-–—]/)) {
+                        const parts = amount.split(/\s*[\-–—]\s*/);
+                        const formatted = parts.map(part => {
+                            // Remove currency if present in second part
+                            const cleaned = part.replace(/[₦\&#8358;]+/g, '').trim();
+                            return cleaned ? formatNumber(cleaned) : '';
+                        }).filter(p => p).join(' - ');
+                        amount = formatted;
+                    } else {
+                        amount = formatNumber(amount);
+                    }
+                    
                     span.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
                     span.dataset.enhanced = '1';
                 }
