@@ -2323,7 +2323,12 @@
             if (!target) return;
             const productName = target.getAttribute('data-product');
             const amountNaira = Number(target.getAttribute('data-amount'));
-            openCheckoutModal(productName, amountNaira);
+            
+            // Add item to cart first
+            addToCart(productName, amountNaira);
+            
+            // Then proceed to checkout with the cart
+            openCartCheckoutModal();
         }
 
         closeCheckoutBtn.addEventListener('click', closeCheckoutModal);
@@ -2340,21 +2345,15 @@
             const email = document.getElementById('checkoutEmail').value.trim();
             const shippingAddress = document.getElementById('checkoutAddress').value.trim();
             
-            // Determine if this is cart checkout or single product checkout
-            const isCartCheckout = cart.length > 0 && !checkoutContext.amountNaira;
-            let totalAmountKobo, productDetails;
-            
-            if (isCartCheckout) {
-                // Cart checkout
-                const cartTotal = getCartTotal();
-                totalAmountKobo = formatKobo(cartTotal);
-                productDetails = cart.map(item => `${item.name} (x${item.quantity}) - ₦${item.price.toLocaleString()}`).join(', ');
-            } else {
-                // Single product checkout
-                const quantity = Math.max(1, parseInt(document.getElementById('checkoutQuantity').value, 10) || 1);
-                totalAmountKobo = formatKobo(checkoutContext.amountNaira * quantity);
-                productDetails = `${checkoutContext.productName} (x${quantity})`;
+            // Always use cart for checkout
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
             }
+            
+            const cartTotal = getCartTotal();
+            const totalAmountKobo = formatKobo(cartTotal);
+            const productDetails = cart.map(item => `${item.name} (x${item.quantity}) - ₦${item.price.toLocaleString()}`).join(', ');
 
             if (!window.PaystackPop) {
                 alert('Payment library not loaded. Please check your internet connection and try again.');
@@ -2378,36 +2377,22 @@
                     closeCheckoutModal();
                     alert(`Payment successful! Reference: ${response.reference}`);
                     
-                    if (isCartCheckout) {
-                        // Send cart details
-                        notifyPaymentViaEmail({
-                            reference: response.reference,
-                            productName: productDetails,
-                            quantity: cart.reduce((sum, item) => sum + item.quantity, 0),
-                            amountNaira: getCartTotal(),
-                            totalAmountNaira: getCartTotal(),
-                            customerEmail: email,
-                            customerName: customerName || '',
-                            shippingAddress: shippingAddress || ''
-                        });
-                        // Clear cart after successful payment
-                        cart = [];
-                        saveCart();
-                        updateCartUI();
-                    } else {
-                        // Send single product details
-                        const quantity = Math.max(1, parseInt(document.getElementById('checkoutQuantity').value, 10) || 1);
-                        notifyPaymentViaEmail({
-                            reference: response.reference,
-                            productName: checkoutContext.productName,
-                            quantity,
-                            amountNaira: checkoutContext.amountNaira,
-                            totalAmountNaira: checkoutContext.amountNaira * quantity,
-                            customerEmail: email,
-                            customerName: customerName || '',
-                            shippingAddress: shippingAddress || ''
-                        });
-                    }
+                    // Send cart details
+                    notifyPaymentViaEmail({
+                        reference: response.reference,
+                        productName: productDetails,
+                        quantity: cart.reduce((sum, item) => sum + item.quantity, 0),
+                        amountNaira: getCartTotal(),
+                        totalAmountNaira: getCartTotal(),
+                        customerEmail: email,
+                        customerName: customerName || '',
+                        shippingAddress: shippingAddress || ''
+                    });
+                    
+                    // Clear cart after successful payment
+                    cart = [];
+                    saveCart();
+                    updateCartUI();
                 },
                 onClose: function() {
                     // Payment window closed
