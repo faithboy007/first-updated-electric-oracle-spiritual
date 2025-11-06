@@ -2121,7 +2121,7 @@
                     <div class="cart-item">
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">&#8358;${item.price.toLocaleString()}</div>
+                            <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
                         </div>
                         <div class="cart-item-controls">
                             <button class="quantity-btn" onclick="updateQuantity('${item.name.replace(/'/g, "\\'")}'', ${item.quantity - 1})">
@@ -2139,8 +2139,8 @@
                 `).join('');
 
                 const total = getCartTotal();
-                cartSubtotal.textContent = `&#8358;${total.toLocaleString()}`;
-                cartTotal.textContent = `&#8358;${total.toLocaleString()}`;
+                cartSubtotal.textContent = `₦${total.toLocaleString()}`;
+                cartTotal.textContent = `₦${total.toLocaleString()}`;
             }
         }
 
