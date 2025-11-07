@@ -2369,8 +2369,14 @@
             const productName = target.getAttribute('data-product');
             const amountNaira = Number(target.getAttribute('data-amount'));
             
-            // Open direct checkout for single product (not adding to cart)
-            openSingleProductCheckout(productName, amountNaira);
+            // Check if cart has items
+            if (cart.length > 0) {
+                // If cart has items, checkout the entire cart
+                openCartCheckoutModal();
+            } else {
+                // If cart is empty, checkout just this single product
+                openSingleProductCheckout(productName, amountNaira);
+            }
         }
         
         function openSingleProductCheckout(productName, amountNaira) {
