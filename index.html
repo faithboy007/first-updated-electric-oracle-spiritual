@@ -2452,7 +2452,7 @@
                 },
                 callback: function(response) {
                     closeCheckoutModal();
-                    alert(`Payment successful! Reference: ${response.reference}`);
+                    alert(`Payment successful! Reference: ${response.reference}\n\nThank you for your order! Your items will be delivered within 48 hours.`);
                     
                     // Send payment notification
                     notifyPaymentViaEmail({
