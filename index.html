@@ -1130,6 +1130,7 @@
     <!-- Firebase Auth (Compat SDK) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -2798,6 +2799,22 @@
             updateAccountLink();
             if (!user) {
                 openLogin();
+            } else {
+                // Log sign-in to Firestore
+                try {
+                    if (typeof firebase.firestore !== 'undefined') {
+                        const db = firebase.firestore();
+                        db.collection('login_logs').add({
+                            userId: user.uid,
+                            email: user.email,
+                            loginTime: new Date().toISOString(),
+                            userAgent: navigator.userAgent,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        }).catch(err => console.log('Login log error:', err));
+                    }
+                } catch (e) {
+                    // Silently fail if Firestore not enabled
+                }
             }
         });
 
