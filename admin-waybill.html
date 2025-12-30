@@ -525,6 +525,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     
+    <!-- Firebase Config (loaded from external file) -->
+    <script src="js/firebase-config.js"></script>
+    
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     
@@ -532,17 +535,7 @@
     <script src="js/waybill-tracking.js"></script>
 
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDKh2BEQwn9zPJ_hzCh_U2IQw8WZMO2Mls",
-            authDomain: "electric-oracle-spiritual.firebaseapp.com",
-            projectId: "electric-oracle-spiritual",
-            storageBucket: "electric-oracle-spiritual.firebasestorage.app",
-            messagingSenderId: "542817005556",
-            appId: "1:542817005556:web:c93dc1b62f58ce8f53f976"
-        };
-
-        firebase.initializeApp(firebaseConfig);
+        // Firebase is initialized in firebase-config.js
         const db = firebase.firestore();
         const auth = firebase.auth();
 
