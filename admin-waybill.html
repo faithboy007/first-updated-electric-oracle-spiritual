@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waybill Management - Electric Oracle Spirituals</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔮</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #1a1a2e;
+            --primary-purple: #6d44c5;
+            --accent-gold: #d4af37;
+            --text-light: #f8f9fa;
+            --text-dark: #2d3047;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark), #2d2d5a);
+            color: var(--text-light);
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary-purple);
+            border-bottom-color: var(--primary-purple);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .waybills-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .waybills-table th,
+        .waybills-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .waybills-table th {
+            background: var(--primary-dark);
+            color: white;
+            font-weight: 600;
+        }
+
+        .waybills-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.85rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .waybills-table {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-clipboard-list"></i> Waybill Management System</h1>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" data-tab="create">Create Waybill</button>
+            <button class="tab" data-tab="manage">Manage Waybills</button>
+            <button class="tab" data-tab="reports">Reports</button>
+        </div>
+
+        <!-- Create Waybill Tab -->
+        <div class="tab-content active" id="create-tab">
+            <div class="card">
+                <h2>Create New Waybill</h2>
+                <div class="alert alert-success" id="createSuccess"></div>
+                <div class="alert alert-error" id="createError"></div>
+
+                <form id="createWaybillForm">
+                    <h3 style="margin-bottom: 1rem;">Customer Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name *</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Phone Number *</label>
+                            <input type="tel" id="customerPhone" placeholder="+234..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerEmail">Email *</label>
+                            <input type="email" id="customerEmail" required>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 1.5rem 0 1rem;">Delivery Address</h3>
+                    <div class="form-group">
+                        <label for="deliveryStreet">Street Address *</label>
+                        <input type="text" id="deliveryStreet" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryCity">City *</label>
+                            <input type="text" id="deliveryCity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryState">State *</label>
+                            <select id="deliveryState" required>
+                                <option value="">Select State</option>
+                                <option value="Abia">Abia</option>
+                                <option value="Adamawa">Adamawa</option>
+                                <option value="Akwa Ibom">Akwa Ibom</option>
+                                <option value="Anambra">Anambra</option>
+                                <option value="Bauchi">Bauchi</option>
+                                <option value="Bayelsa">Bayelsa</option>
+                                <option value="Benue">Benue</option>
+                                <option value="Borno">Borno</option>
+                                <option value="Cross River">Cross River</option>
+                                <option value="Delta">Delta</option>
+                                <option value="Ebonyi">Ebonyi</option>
+                                <option value="Edo">Edo</option>
+                                <option value="Ekiti">Ekiti</option>
+                                <option value="Enugu">Enugu</option>
+                                <option value="FCT">FCT</option>
+                                <option value="Gombe">Gombe</option>
+                                <option value="Imo">Imo</option>
+                                <option value="Jigawa">Jigawa</option>
+                                <option value="Kaduna">Kaduna</option>
+                                <option value="Kano">Kano</option>
+                                <option value="Katsina">Katsina</option>
+                                <option value="Kebbi">Kebbi</option>
+                                <option value="Kogi">Kogi</option>
+                                <option value="Kwara">Kwara</option>
+                                <option value="Lagos">Lagos</option>
+                                <option value="Nasarawa">Nasarawa</option>
+                                <option value="Niger">Niger</option>
+                                <option value="Ogun">Ogun</option>
+                                <option value="Ondo">Ondo</option>
+                                <option value="Osun">Osun</option>
+                                <option value="Oyo">Oyo</option>
+                                <option value="Plateau">Plateau</option>
+                                <option value="Rivers">Rivers</option>
+                                <option value="Sokoto">Sokoto</option>
+                                <option value="Taraba">Taraba</option>
+                                <option value="Yobe">Yobe</option>
+                                <option value="Zamfara">Zamfara</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryLga">LGA</label>
+                            <input type="text" id="deliveryLga">
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 1.5rem 0 1rem;">Product Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productName">Product Name *</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productQuantity">Quantity *</label>
+                            <input type="number" id="productQuantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productValue">Value (₦) *</label>
+                            <input type="number" id="productValue" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productWeight">Weight</label>
+                            <input type="text" id="productWeight" placeholder="e.g., 2kg">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Description / Special Instructions</label>
+                        <textarea id="productDescription"></textarea>
+                    </div>
+
+                    <h3 style="margin: 1.5rem 0 1rem;">Logistics Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courier">Courier Service *</label>
+                            <select id="courier" required>
+                                <option value="Self-delivery">Self-delivery</option>
+                                <option value="GIG Logistics">GIG Logistics</option>
+                                <option value="DHL">DHL</option>
+                                <option value="FedEx">FedEx</option>
+                                <option value="NIPOST">NIPOST</option>
+                                <option value="Kwik Delivery">Kwik Delivery</option>
+                                <option value="Red Star Express">Red Star Express</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="externalTrackingNumber">External Tracking Number</label>
+                            <input type="text" id="externalTrackingNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="estimatedDelivery">Estimated Delivery Date</label>
+                            <input type="date" id="estimatedDelivery">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn">
+                        <i class="fas fa-plus-circle"></i> Create Waybill
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Manage Waybills Tab -->
+        <div class="tab-content" id="manage-tab">
+            <div class="card">
+                <h2>All Waybills</h2>
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="searchWaybill" placeholder="Search by waybill number, customer name, or phone...">
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="waybills-table" id="waybillsTable">
+                        <thead>
+                            <tr>
+                                <th>Waybill #</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Destination</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="waybillsTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center;">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div class="tab-content" id="reports-tab">
+            <div class="card">
+                <h2>Shipment Reports</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Total Waybills</label>
+                        <h3 id="totalWaybills">0</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Pending</label>
+                        <h3 id="pendingCount">0</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>In Transit</label>
+                        <h3 id="inTransitCount">0</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivered</label>
+                        <h3 id="deliveredCount">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div class="modal" id="updateStatusModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Shipment Status</h2>
+                <button class="modal-close" onclick="closeUpdateModal()">&times;</button>
+            </div>
+            <form id="updateStatusForm">
+                <input type="hidden" id="updateWaybillNumber">
+                <div class="form-group">
+                    <label for="updateStatus">Status *</label>
+                    <select id="updateStatus" required>
+                        <option value="pending">Pending Dispatch</option>
+                        <option value="dispatched">Dispatched</option>
+                        <option value="in_transit">In Transit</option>
+                        <option value="out_for_delivery">Out for Delivery</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="failed">Delivery Failed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="updateLocation">Location *</label>
+                    <input type="text" id="updateLocation" required>
+                </div>
+                <div class="form-group">
+                    <label for="updateNotes">Notes</label>
+                    <textarea id="updateNotes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="updateHandler">Handler Name</label>
+                    <input type="text" id="updateHandler">
+                </div>
+                <button type="submit" class="btn btn-success">Update Status</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    
+    <!-- Waybill Tracking Module -->
+    <script src="js/waybill-tracking.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKh2BEQwn9zPJ_hzCh_U2IQw8WZMO2Mls",
+            authDomain: "electric-oracle-spiritual.firebaseapp.com",
+            projectId: "electric-oracle-spiritual",
+            storageBucket: "electric-oracle-spiritual.firebasestorage.app",
+            messagingSenderId: "542817005556",
+            appId: "1:542817005556:web:c93dc1b62f58ce8f53f976"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Check authentication
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                alert('Please login first');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+
+                if (tabName === 'manage') {
+                    loadWaybills();
+                } else if (tabName === 'reports') {
+                    loadReports();
+                }
+            });
+        });
+
+        // Create waybill form submission
+        document.getElementById('createWaybillForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const orderData = {
+                customerName: document.getElementById('customerName').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                customerEmail: document.getElementById('customerEmail').value,
+                deliveryStreet: document.getElementById('deliveryStreet').value,
+                deliveryCity: document.getElementById('deliveryCity').value,
+                deliveryState: document.getElementById('deliveryState').value,
+                deliveryLga: document.getElementById('deliveryLga').value,
+                productName: document.getElementById('productName').value,
+                productQuantity: parseInt(document.getElementById('productQuantity').value),
+                productValue: parseFloat(document.getElementById('productValue').value) * 100, // Convert to kobo
+                productWeight: document.getElementById('productWeight').value,
+                productDescription: document.getElementById('productDescription').value,
+                courier: document.getElementById('courier').value,
+                externalTrackingNumber: document.getElementById('externalTrackingNumber').value,
+                estimatedDelivery: document.getElementById('estimatedDelivery').value,
+                createdBy: auth.currentUser.email
+            };
+
+            const result = await createWaybill(orderData);
+
+            if (result.success) {
+                showAlert('createSuccess', `Waybill ${result.waybillNumber} created successfully!`);
+                document.getElementById('createWaybillForm').reset();
+                setTimeout(() => hideAlert('createSuccess'), 5000);
+            } else {
+                showAlert('createError', result.error);
+            }
+        });
+
+        // Load all waybills
+        async function loadWaybills() {
+            const tbody = document.getElementById('waybillsTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading...</td></tr>';
+
+            try {
+                const snapshot = await db.collection('waybills')
+                    .orderBy('createdAt', 'desc')
+                    .limit(100)
+                    .get();
+
+                tbody.innerHTML = '';
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const row = document.createElement('tr');
+                    const createdDate = new Date(data.createdAt).toLocaleDateString();
+
+                    row.innerHTML = `
+                        <td>${data.waybillNumber}</td>
+                        <td>${data.customerInfo.name}<br><small>${data.customerInfo.phone}</small></td>
+                        <td>${data.productInfo.name}</td>
+                        <td>${data.customerInfo.deliveryAddress.city}, ${data.customerInfo.deliveryAddress.state}</td>
+                        <td><span class="status-badge" style="background: ${getStatusColor(data.status)}">${formatStatus(data.status)}</span></td>
+                        <td>${createdDate}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm btn-secondary" onclick="openUpdateModal('${data.waybillNumber}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm" onclick="viewWaybill('${data.waybillNumber}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No waybills found</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading waybills:', error);
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">Error loading waybills</td></tr>';
+            }
+        }
+
+        // Load reports
+        async function loadReports() {
+            try {
+                const snapshot = await db.collection('waybills').get();
+                
+                let total = 0, pending = 0, inTransit = 0, delivered = 0;
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    total++;
+                    if (data.status === 'pending') pending++;
+                    if (data.status === 'in_transit') inTransit++;
+                    if (data.status === 'delivered') delivered++;
+                });
+
+                document.getElementById('totalWaybills').textContent = total;
+                document.getElementById('pendingCount').textContent = pending;
+                document.getElementById('inTransitCount').textContent = inTransit;
+                document.getElementById('deliveredCount').textContent = delivered;
+            } catch (error) {
+                console.error('Error loading reports:', error);
+            }
+        }
+
+        // Open update status modal
+        function openUpdateModal(waybillNumber) {
+            document.getElementById('updateWaybillNumber').value = waybillNumber;
+            document.getElementById('updateStatusModal').classList.add('show');
+        }
+
+        // Close update status modal
+        function closeUpdateModal() {
+            document.getElementById('updateStatusModal').classList.remove('show');
+            document.getElementById('updateStatusForm').reset();
+        }
+
+        // Update status form submission
+        document.getElementById('updateStatusForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const waybillNumber = document.getElementById('updateWaybillNumber').value;
+            const statusUpdate = {
+                status: document.getElementById('updateStatus').value,
+                location: document.getElementById('updateLocation').value,
+                notes: document.getElementById('updateNotes').value,
+                handler: document.getElementById('updateHandler').value || auth.currentUser.email
+            };
+
+            const result = await updateWaybillStatus(waybillNumber, statusUpdate);
+
+            if (result.success) {
+                alert('Status updated successfully!');
+                closeUpdateModal();
+                loadWaybills();
+            } else {
+                alert('Error: ' + result.error);
+            }
+        });
+
+        // View waybill (open tracking page in new tab)
+        function viewWaybill(waybillNumber) {
+            window.open(`track.html?waybill=${waybillNumber}`, '_blank');
+        }
+
+        // Alert helpers
+        function showAlert(id, message) {
+            const alert = document.getElementById(id);
+            alert.textContent = message;
+            alert.classList.add('show');
+        }
+
+        function hideAlert(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        // Search functionality
+        document.getElementById('searchWaybill').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#waybillsTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
