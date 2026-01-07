@@ -1180,6 +1180,20 @@
             <div class="section-title">
                 <h2>Sacred Spiritual Products</h2>
             </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container" style="max-width: 600px; margin: 0 auto 2rem; position: relative;">
+                <input 
+                    type="text" 
+                    id="productSearch" 
+                    placeholder="Search for products..." 
+                    style="width: 100%; padding: 14px 50px 14px 20px; border: 2px solid var(--primary-purple); border-radius: 30px; font-size: 1rem; outline: none; transition: all 0.3s;"
+                    onkeyup="searchProducts()"
+                />
+                <i class="fas fa-search" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-purple); font-size: 1.2rem; pointer-events: none;"></i>
+                <div id="searchResults" style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9rem;"></div>
+            </div>
+            
             <div class="products-grid">
                 <!-- Product 1: Back to Sender Perfume -->
                 <div class="product-card">
@@ -2208,7 +2222,7 @@
 
             <!-- Big sasorabia -->
             <div class="product-card">
-                <div class="product-img" style="background-image: url('https://ik.imagekit.io/esz8imvuw/WhatsApp%20Image%202026-01-07%20at%2012.58.38%20PM.jpeg');">
+                <div class="product-img" style="background-image: url('https://ik.imagekit.io/esz8imvuw/WhatsApp%20Image%202026-01-07%20at%2012.58.37%20PM.jpeg');">
                     <i class="fas fa-cube" style="display: none;"></i>
                 </div>
                 <div class="product-info">
@@ -2217,23 +2231,6 @@
                     <div class="product-price">
                         <span class="price">&#8358; 15,000.00</span>
                         <button class="btn add-to-cart-btn" data-product="Big sasorabia" data-price="&#8358; 15000.00">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Return To Sender Mirror -->
-            <div class="product-card">
-                <div class="product-img" style="background-image: url('https://ng.jumia.is/unsafe/fit-in/680x680/filters:fill(white)/product/67/8934567/1.jpg?0123');">
-                    <i class="fas fa-mirror" style="display: none;"></i>
-                </div>
-                <div class="product-info">
-                    <h3>Return To Sender Mirror</h3>
-                    <p>Reflect negative energy and hexes back to their source.</p>
-                    <div class="product-price">
-                        <span class="price">&#8358; 12,000.00</span>
-                        <button class="btn add-to-cart-btn" data-product="Return To Sender Mirror" data-price="&#8358; 12000.00">
                             Add to Cart
                         </button>
                     </div>
@@ -2714,7 +2711,6 @@
             'Saint michael bottle candle': 15000,
             'Salamalekun oil perfume': 12000,
             'Big sasorabia': 15000,
-            'Return To Sender Mirror': 12000,
             'Prestige love': 20000,
             'Negativity Cleansing Kit': 40000
         };
@@ -2727,6 +2723,38 @@
 
         // Shopping Cart System
         let cart = [];
+
+        // Product Search Function
+        function searchProducts() {
+            const searchInput = document.getElementById('productSearch');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const productCards = document.querySelectorAll('.product-card');
+            const searchResults = document.getElementById('searchResults');
+            let visibleCount = 0;
+            
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                const productDesc = card.querySelector('p')?.textContent.toLowerCase() || '';
+                
+                if (searchTerm === '' || productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update search results message
+            if (searchTerm === '') {
+                searchResults.textContent = '';
+            } else if (visibleCount === 0) {
+                searchResults.textContent = 'No products found';
+                searchResults.style.color = '#999';
+            } else {
+                searchResults.textContent = `Found ${visibleCount} product${visibleCount !== 1 ? 's' : ''}`;
+                searchResults.style.color = 'var(--primary-purple)';
+            }
+        }
 
         // Load cart from localStorage
         function loadCart() {
