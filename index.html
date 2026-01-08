@@ -172,6 +172,42 @@
             position: relative;
         }
 
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            max-width: 900px;
+        }
+
+        .category-btn {
+            background: white;
+            color: var(--primary-purple);
+            border: 2px solid var(--primary-purple);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .category-btn:hover {
+            background: var(--primary-purple);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(109, 68, 197, 0.3);
+        }
+
+        .category-btn.active {
+            background: var(--primary-purple);
+            color: white;
+            box-shadow: 0 4px 8px rgba(109, 68, 197, 0.3);
+        }
+
         .section-title h2 {
             font-size: 2.5rem;
             color: var(--primary-dark);
@@ -1091,6 +1127,16 @@
                 text-align: center;
             }
 
+            .category-filters {
+                gap: 0.5rem;
+                padding: 0 8px;
+            }
+
+            .category-btn {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+
             /* Cart mobile adjustments */
             #cartModal .modal-content {
                 max-width: 95%;
@@ -1177,6 +1223,40 @@
                 <h2>Sacred Spiritual Products</h2>
             </div>
             
+            <!-- Category Filters -->
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all" onclick="filterByCategory('all')">
+                    <i class="fas fa-border-all"></i> All Products
+                </button>
+                <button class="category-btn" data-category="perfumes" onclick="filterByCategory('perfumes')">
+                    <i class="fas fa-spray-can"></i> Perfumes
+                </button>
+                <button class="category-btn" data-category="oils" onclick="filterByCategory('oils')">
+                    <i class="fas fa-oil-can"></i> Spiritual Oils
+                </button>
+                <button class="category-btn" data-category="incense" onclick="filterByCategory('incense')">
+                    <i class="fas fa-fire"></i> Incense
+                </button>
+                <button class="category-btn" data-category="soaps" onclick="filterByCategory('soaps')">
+                    <i class="fas fa-soap"></i> Soaps
+                </button>
+                <button class="category-btn" data-category="waters" onclick="filterByCategory('waters')">
+                    <i class="fas fa-tint"></i> Waters
+                </button>
+                <button class="category-btn" data-category="powders" onclick="filterByCategory('powders')">
+                    <i class="fas fa-mortar-pestle"></i> Powders
+                </button>
+                <button class="category-btn" data-category="candles" onclick="filterByCategory('candles')">
+                    <i class="fas fa-candle-holder"></i> Candles
+                </button>
+                <button class="category-btn" data-category="natural" onclick="filterByCategory('natural')">
+                    <i class="fas fa-leaf"></i> Natural Materials
+                </button>
+                <button class="category-btn" data-category="other" onclick="filterByCategory('other')">
+                    <i class="fas fa-box"></i> Other
+                </button>
+            </div>
+            
             <!-- Search Bar -->
             <div class="search-container" style="max-width: 600px; margin: 0 auto 2rem; position: relative;">
                 <input 
@@ -1192,7 +1272,7 @@
             
             <div class="products-grid">
                 <!-- Product 1: Back to Sender Perfume - Biggest Size -->
-                <div class="product-card">
+                <div class="product-card" data-category="perfumes">
                     <div class="product-img" style="background-image: url('https://i.pinimg.com/1200x/30/19/2b/30192b96575d0ab8b6209d3405e2c5cc.jpg');">
                         <i class="fas fa-wind" style="display: none;"></i>
                     </div>
@@ -1209,7 +1289,7 @@
                 </div>
 
                 <!-- Back to Sender Perfume - Large Size -->
-                <div class="product-card">
+                <div class="product-card" data-category="perfumes">
                     <div class="product-img" style="background-image: url('https://ik.imagekit.io/esz8imvuw/Gemini_Generated_Image_m17l2um17l2um17l.png');">
                         <i class="fas fa-wind" style="display: none;"></i>
                     </div>
@@ -1226,7 +1306,7 @@
                 </div>
 
                 <!-- Back to Sender Perfume - Medium Size -->
-                <div class="product-card">
+                <div class="product-card" data-category="perfumes">
                     <div class="product-img" style="background-image: url('https://ik.imagekit.io/esz8imvuw/Gemini_Generated_Image_m17l2um17l2um17l.png');">
                         <i class="fas fa-wind" style="display: none;"></i>
                     </div>
@@ -1243,7 +1323,7 @@
                 </div>
 
                 <!-- Back to Sender Perfume - Small Size -->
-                <div class="product-card">
+                <div class="product-card" data-category="perfumes">
                     <div class="product-img" style="background-image: url('https://ik.imagekit.io/esz8imvuw/Gemini_Generated_Image_m17l2um17l2um17l.png');">
                         <i class="fas fa-wind" style="display: none;"></i>
                     </div>
@@ -3079,8 +3159,93 @@
         // Shopping Cart System
         let cart = [];
 
+        // Auto-categorize products on page load
+        function categorizeProducts() {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                let category = 'other';
+                
+                if (productName.includes('perfume')) {
+                    category = 'perfumes';
+                } else if (productName.includes('oil') && !productName.includes('perfume')) {
+                    category = 'oils';
+                } else if (productName.includes('incense')) {
+                    category = 'incense';
+                } else if (productName.includes('soap')) {
+                    category = 'soaps';
+                } else if (productName.includes('water')) {
+                    category = 'waters';
+                } else if (productName.includes('powder')) {
+                    category = 'powders';
+                } else if (productName.includes('candle')) {
+                    category = 'candles';
+                } else if (productName.includes('pepper') || productName.includes('salt') || 
+                           productName.includes('kolanut') || productName.includes('honey') ||
+                           productName.includes('goma')) {
+                    category = 'natural';
+                }
+                
+                card.setAttribute('data-category', category);
+            });
+        }
+
+        // Category Filter Function
+        let currentCategory = 'all';
+        function filterByCategory(category) {
+            currentCategory = category;
+            const productCards = document.querySelectorAll('.product-card');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            let visibleCount = 0;
+            
+            // Update active button
+            categoryBtns.forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Filter products
+            productCards.forEach(card => {
+                const productCategory = card.getAttribute('data-category');
+                if (category === 'all' || productCategory === category) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Clear search when filtering by category
+            const searchInput = document.getElementById('productSearch');
+            const searchResults = document.getElementById('searchResults');
+            if (searchInput) searchInput.value = '';
+            if (searchResults) {
+                if (category === 'all') {
+                    searchResults.textContent = '';
+                } else {
+                    searchResults.textContent = `Showing ${visibleCount} ${category === 'all' ? 'product' : category.replace(/s$/, '')}${visibleCount !== 1 ? 's' : ''}`;
+                    searchResults.style.color = 'var(--primary-purple)';
+                }
+            }
+        }
+
         // Product Search Function
         function searchProducts() {
+            // Reset category filter when searching
+            currentCategory = 'all';
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                if (btn.getAttribute('data-category') === 'all') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
             const searchInput = document.getElementById('productSearch');
             const searchTerm = searchInput.value.toLowerCase().trim();
             const productCards = document.querySelectorAll('.product-card');
@@ -3727,6 +3892,9 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize product categories
+            categorizeProducts();
+            
             // Initialize shopping cart
             loadCart();
             
